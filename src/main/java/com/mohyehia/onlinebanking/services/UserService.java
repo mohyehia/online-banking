@@ -27,8 +27,8 @@ public class UserService implements UserDetailsService{
 	private BCryptPasswordEncoder passwordEncoder;
 
 	@Override
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userRepository.findByUsername(username)
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userRepository.findByEmail(email)
 				.orElseThrow(() -> new UsernameNotFoundException("Username not found!"));
 		new AccountStatusUserDetailsChecker().check(user);
 		return user;
@@ -37,15 +37,15 @@ public class UserService implements UserDetailsService{
 	public User save(User user) {
 		if(exists(user.getEmail())) return null;
 		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		if(user.getRoles().isEmpty()) {
-			Set<Role> roles = new HashSet<>(Arrays.asList(new Role(1L)));
+		if(user.getRoles() == null) {
+			Set<Role> roles = new HashSet<>(Arrays.asList(new Role(2L)));
 			user.setRoles(roles);
 		}
 		return userRepository.save(user);
 	}
 	
 	private boolean exists(String email) {
-		return userRepository.findByUsername(email).isPresent();
+		return userRepository.findByEmail(email).isPresent();
 	}
 	
 }

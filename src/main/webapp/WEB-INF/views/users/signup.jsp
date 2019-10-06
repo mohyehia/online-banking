@@ -30,6 +30,12 @@
                     	</c:forEach>
                 	</div>
 				</c:if>
+				<c:if test="${err != null}">
+					<div class="alert alert-dismissible alert-danger">
+					<button type="button" class="close" data-dismiss="alert">&times;</button>
+						${err}
+					</div>
+				</c:if>
 
                 <div class="card border-light mb-3">
                     <div class="card-header">
@@ -41,11 +47,6 @@
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control"
                                     placeholder="Enter email address" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="username">Username</label>
-                                <input type="text" id="username" name="username" class="form-control"
-                                    placeholder="Enter your username" required>
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">

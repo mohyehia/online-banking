@@ -1,6 +1,5 @@
 package com.mohyehia.onlinebanking.controllers;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -46,7 +45,13 @@ public class SignupController {
 			return "users/signup";
 		}else {
 			LOGGER.info("Request passed!");
-			return "";			
+			if(userService.save(user) != null) {
+				attributes.addFlashAttribute("success", "Your account has been created successfully, you can now  login with your credentials.");
+				return "redirect:/auth/login";
+			}else {
+				model.addAttribute("err", "Email address already exists, please try again using a different email address.");
+				return "users/signup";
+			}
 		}
 	}
 	

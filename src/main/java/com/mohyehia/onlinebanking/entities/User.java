@@ -32,10 +32,6 @@ public class User implements UserDetails {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@NotNull(message = "Username can't be empty.")
-	@Size(min = 6, max = 14, message = "Username must be between 6 and 14 characters inclusive.")
-	private String username;
-	
 	@NotNull(message = "First name can't be empty.")
 	@Size(min = 3, max = 10, message = "First name must be between 3 and 10 characters inclusive.")
 	private String firstName;
@@ -55,7 +51,7 @@ public class User implements UserDetails {
 	private String email;
 	
 	@NotNull(message = "Password can't be empty.")
-	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,15}$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
+	@Pattern(regexp = "^.*(?=.{6,15})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
 	private String password;
 	
 	@Transient
@@ -75,11 +71,11 @@ public class User implements UserDetails {
 
 	public User() {
 		this.created = new Date();
+		this.enabled = true;
 	}
 
-	public User(String username, String firstName, String lastName, String city, String address, String email, String password) {
+	public User(String firstName, String lastName, String city, String address, String email, String password) {
 		this();
-		this.username = username;
 		this.firstName = firstName;
 		this.lastName = lastName;
 		this.city = city;
@@ -97,11 +93,7 @@ public class User implements UserDetails {
 	}
 
 	public String getUsername() {
-		return username;
-	}
-
-	public void setUsername(String username) {
-		this.username = username;
+		return email;
 	}
 
 	public String getFirstName() {
@@ -181,17 +173,17 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return !accountExpired;
+		return true;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return !accountLocked;
+		return true;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return !credentialsExpired;
+		return true;
 	}
 
 	public String getConfirmPassword() {

@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.mohyehia.onlinebanking.services.UserService;
 
@@ -35,24 +36,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-			.antMatchers(PUBLIC_ENDPOINTS).permitAll()
+			.antMatchers(PUBLIC_ENDPOINTS).anonymous()
 			.antMatchers("/admin/**").hasRole("ADMIN")
 			.antMatchers("/**").hasRole("USER")
 			.anyRequest().fullyAuthenticated()
 			.and()
 			.formLogin()
 			.loginPage("/auth/login")
-//			.failureUrl("/auth/login?error")
-//			.loginProcessingUrl("/authentication")
+			.loginProcessingUrl("/login")
 			.defaultSuccessUrl("/accounts", true)
 			.and()
 			.logout()
 			.logoutUrl("/logout")
+			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
+			.logoutSuccessUrl("/auth/login")
 			.invalidateHttpSession(true)
-//			.deleteCookies("JSESSIONID")
 			.and()
-			.cors().disable()
-			.csrf().disable();
+			.cors().disable();
+			
 	}
 	
 }
