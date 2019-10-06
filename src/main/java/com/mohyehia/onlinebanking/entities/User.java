@@ -13,6 +13,11 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.Transient;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,13 +31,35 @@ public class User implements UserDetails {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
+	@NotNull(message = "Username can't be empty.")
+	@Size(min = 6, max = 14, message = "Username must be between 6 and 14 characters inclusive.")
 	private String username;
+	
+	@NotNull(message = "First name can't be empty.")
+	@Size(min = 3, max = 10, message = "First name must be between 3 and 10 characters inclusive.")
 	private String firstName;
+	
+	@NotNull(message = "Last name can't be empty.")
+	@Size(min = 3, max = 10, message = "Last name must be between 3 and 10 characters inclusive.")
 	private String lastName;
+	
+	@NotNull(message = "You must specify your city.")
 	private String city;
+	
+	@NotNull(message = "Please provide your current address.")
 	private String address;
+	
+	@NotNull(message = "Email address can not be empty.")
+	@Email(message = "Please provide a valid email address.")
 	private String email;
+	
+	@NotNull(message = "Password can't be empty.")
+	@Pattern(regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{6,15}$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
 	private String password;
+	
+	@Transient
+	private String confirmPassword;
 	private boolean enabled;
 	private Date created;
 	private boolean accountExpired;
@@ -165,5 +192,13 @@ public class User implements UserDetails {
 	@Override
 	public boolean isCredentialsNonExpired() {
 		return !credentialsExpired;
+	}
+
+	public String getConfirmPassword() {
+		return confirmPassword;
+	}
+
+	public void setConfirmPassword(String confirmPassword) {
+		this.confirmPassword = confirmPassword;
 	}
 }
