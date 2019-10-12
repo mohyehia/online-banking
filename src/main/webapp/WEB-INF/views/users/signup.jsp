@@ -10,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | ${title}</title>
+    <title>Online Banking | Create new account</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -42,7 +42,7 @@
                         <h4 class="card-title">Create new account</h4>
                     </div>
                     <div class="card-body">
-                        <form:form action="signup" method="POST" modelAttribute="user">
+                        <form:form action="auth/signup" method="POST" modelAttribute="user">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control"

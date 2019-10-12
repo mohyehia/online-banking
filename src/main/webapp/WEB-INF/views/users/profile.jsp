@@ -15,13 +15,17 @@
 			<div class="tab-pane fade active show" id="profile">
 				<form>
 					<div class="form-group">
-						<label for="firstName">First name </label> <input type="text"
-							id="firstName" name="firstName" class="form-control"
+						<label>Email Address </label><br>
+						<label>${user.email}</label>
+					</div>
+					<div class="form-group">
+						<label for="firstName">First name </label>
+						<input type="text" name="firstName" class="form-control" value="${user.firstName}"
 							placeholder="Your first name" required>
 					</div>
 					<div class="form-group">
-						<label for="lastName">Last name</label> <input type="text"
-							class="form-control" name="lastName" id="lastName"
+						<label for="lastName">Last name</label>
+						<input type="text" class="form-control" name="lastName" value="${user.lastName}"
 							placeholder="Your last name" required>
 					</div>
 					<div class="form-group">
@@ -35,13 +39,12 @@
 						</select>
 					</div>
 					<div class="form-group">
-						<label for="address">Address</label> <input type="text"
-							id="address" name="address" class="form-control"
+						<label for="address">Address</label>
+						<input type="text" id="address" name="address" class="form-control" value="${user.address}"
 							placeholder="Address" required>
 					</div>
 					<div class="form-group">
-						<input type="submit" value="Save"
-							class="btn btn-block btn-primary" />
+						<input type="submit" value="Save" class="btn btn-block btn-primary" />
 					</div>
 				</form>
 			</div>

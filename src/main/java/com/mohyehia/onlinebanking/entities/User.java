@@ -72,6 +72,9 @@ public class User implements UserDetails {
 	public User() {
 		this.created = new Date();
 		this.enabled = true;
+		this.accountExpired = false;
+		this.accountLocked = false;
+		this.credentialsExpired = false;
 	}
 
 	public User(String firstName, String lastName, String city, String address, String email, String password) {
@@ -173,17 +176,17 @@ public class User implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return true;
+		return !accountExpired;
 	}
 
 	@Override
 	public boolean isAccountNonLocked() {
-		return true;
+		return !accountLocked;
 	}
 
 	@Override
 	public boolean isCredentialsNonExpired() {
-		return true;
+		return !credentialsExpired;
 	}
 
 	public String getConfirmPassword() {

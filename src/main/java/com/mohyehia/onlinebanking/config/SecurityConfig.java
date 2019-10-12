@@ -37,23 +37,21 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers(PUBLIC_ENDPOINTS).anonymous()
-			.antMatchers("/admin/**").hasRole("ADMIN")
-			.antMatchers("/**").hasRole("USER")
-			.anyRequest().fullyAuthenticated()
+			.antMatchers("/accounts/**").authenticated()
+			.antMatchers("/transactions/**").authenticated()
 			.and()
 			.formLogin()
-			.loginPage("/auth/login")
-			.loginProcessingUrl("/login")
-			.defaultSuccessUrl("/accounts", true)
+            .loginPage("/auth/login")
+            .defaultSuccessUrl("/accounts")
 			.and()
 			.logout()
-			.logoutUrl("/logout")
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 			.logoutSuccessUrl("/auth/login")
+			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true)
+			// add exception handling, access denied page & error page
 			.and()
 			.cors().disable();
-			
 	}
 	
 }

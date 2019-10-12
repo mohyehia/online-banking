@@ -1,5 +1,8 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -7,7 +10,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | Accounts</title>
+    <title>Online Banking | ${title}</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -25,18 +28,18 @@
             <div class="collapse navbar-collapse" id="navbarColor01">
                 <ul class="navbar-nav mr-auto">
                     <li class="nav-item active">
-                        <a class="nav-link" href="#">Accounts <span class="sr-only">(current)</span></a>
+                        <a class="nav-link" href="${contextPath}/accounts">Accounts <span class="sr-only">(current)</span></a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="transactions.html">Transactions</a>
+                        <a class="nav-link" href="${contextPath}/transactions">Transactions</a>
                     </li>
                 </ul>
                 <ul class="navbar-nav ml-auto">
                     <li class="nav-item">
-                        <a class="nav-link" href="profile.html">Mohamed</a>
+                        <a class="nav-link" href="${contextPath}/me">${user.firstName} ${user.lastName}</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Logout</a>
+                        <a class="btn btn-outline-danger" href="${contextPath}/logout">Logout</a>
                     </li>
                 </ul>
             </div>

@@ -1,7 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -12,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | Login</title>
+    <title>Online Banking | Please sign in</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -40,16 +39,13 @@
                         <h4 class="card-title">Login to your account</h4>
                     </div>
                     <div class="card-body">
-                        <form:form method="POST" action="/login">
+                        <form name="login" method="post" action="login">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control"
-                                    placeholder="Enter email address" required>
-                            </div>
+								<input type="text" id="username" name="username" class="form-control" placeholder="Email Address" required autofocus>                            </div>
                             <div class="form-group">
                                 <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control"
-                                    placeholder="Enter password" required>
+                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
                             </div>
                             
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -58,7 +54,7 @@
                                 <input type="submit" value="Login" class="btn btn-block btn-primary" />
                             </div>
                             <a class="text-danger" href="forget-password.html">Forgot Your Password?</a>
-                        </form:form>
+                        </form>
                     </div>
                     <div class="border-top card-body text-center">
                         Don't have an account? <a class="text-primary" href="${contextPath}/auth/signup">Signup here</a>
