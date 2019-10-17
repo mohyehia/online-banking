@@ -21,13 +21,13 @@
     <div class="container" style="margin-top: 6%">
         <!-- Content of each page is here -->
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-5">
 
 				<c:if test="${success != null}">
 					<div class="alert alert-dismissible alert-success">${success}</div>
 				</c:if>
 				
-				<c:if test="${param.error != null}">
+				<c:if test="${error != null}">
 					<div class="alert alert-dismissible alert-danger">
                     	Invalid username or password.
                 	</div>
@@ -36,36 +36,26 @@
 
                 <div class="card border-light mb-3">
                     <div class="card-header">
-                        <h4 class="card-title">Login to your account</h4>
+                        <h4 class="card-title">Enter your email address and we will send you a link to reset your password</h4>
                     </div>
                     <div class="card-body">
-                        <form name="login" method="post" action="login">
+                        <form method="POST" action="${contextPath}/auth/forgot-password">
                             <div class="form-group">
                                 <label for="email">Email</label>
-								<input type="text" id="username" name="username" class="form-control" placeholder="Email Address" required autofocus>                            </div>
+								<input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
+							</div>                  
                             <div class="form-group">
-                                <label for="password">Password</label>
-                                <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
+                                <input type="submit" value="Submit" class="btn btn-block btn-primary" />
                             </div>
-                            
-                            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                            
-                            <div class="form-group">
-                                <input type="submit" value="Login" class="btn btn-block btn-primary" />
-                            </div>
-                            <a class="text-danger" href="${contextPath}/auth/forgot-password">Forgot Your Password?</a>
                         </form>
                     </div>
                     <div class="border-top card-body text-center">
-                        Don't have an account? <a class="text-primary" href="${contextPath}/auth/signup">Signup here</a>
+                        Remember your credentials? <a class="text-primary" href="${contextPath}/auth/login">Login here</a>
                     </div>
                 </div>
 
             </div>
         </div>
     </div>
-
-
 </body>
-
 </html>

@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <jsp:include page="../assets/header.jsp" />
 
 <div class="row">
@@ -7,8 +9,7 @@
 		<h4>List of your Transactions</h4>
 	</div>
 	<div class="col-md-6 text-right">
-		<a class="btn btn-primary" href="add_transaction.html">Add New
-			Transaction</a>
+		<a class="btn btn-primary" href="${contextPath}/transactions/add">Add New Transaction</a>
 	</div>
 </div>
 

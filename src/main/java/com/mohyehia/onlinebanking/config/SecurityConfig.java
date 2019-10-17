@@ -16,9 +16,9 @@ import com.mohyehia.onlinebanking.services.UserService;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	
-	private final String[] PUBLIC_ENDPOINTS = {
-			"/auth/**"
-		};
+	private final String[] PUBLIC_ENDPOINTS = {"/auth/**"};
+	private final String[] USER_ENDPOINTS = {"/accounts/**", "/transactions/**", "/me"};
+	private final String[] ADMIN_ENDPOINTS = {"/admin/**"};
 	
 	@Autowired
 	private UserService userService;
@@ -37,8 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
 			.antMatchers(PUBLIC_ENDPOINTS).anonymous()
-			.antMatchers("/accounts/**").authenticated()
-			.antMatchers("/transactions/**").authenticated()
+			.antMatchers(USER_ENDPOINTS).hasRole("USER")
+			.antMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN")
 			.and()
 			.formLogin()
             .loginPage("/auth/login")

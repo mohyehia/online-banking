@@ -1,5 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <jsp:include page="../assets/header.jsp" />
 
 <div class="row justify-content-center">
@@ -13,13 +15,13 @@
 		</ul>
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade active show" id="profile">
-				<form>
+				<form method="POST" action="${contextPath}/me">
 					<div class="form-group">
-						<label>Email Address </label><br>
-						<label>${user.email}</label>
+						<label>Email Address</label><br>
+						<label><b>${user.email}</b></label>
 					</div>
 					<div class="form-group">
-						<label for="firstName">First name </label>
+						<label for="firstName">First name</label>
 						<input type="text" name="firstName" class="form-control" value="${user.firstName}"
 							placeholder="Your first name" required>
 					</div>
@@ -29,13 +31,12 @@
 							placeholder="Your last name" required>
 					</div>
 					<div class="form-group">
-						<label for="city">City</label> <select id="city" name="city"
-							class="form-control">
+						<label for="city">City</label> <select id="city" name="city" class="form-control">
 							<option>Choose...</option>
-							<option>Cairo</option>
-							<option>Alex</option>
-							<option>Giza</option>
-							<option>Tanta</option>
+							<option <c:if test = "${user.city == 'Cairo'}" >selected</c:if> >Cairo</option>
+							<option <c:if test = "${user.city == 'Alex'}" >selected</c:if> >Alex</option>
+							<option <c:if test = "${user.city == 'Giza'}" >selected</c:if> >Giza</option>
+							<option <c:if test = "${user.city == 'Tanta'}" >selected</c:if> >Tanta</option>
 						</select>
 					</div>
 					<div class="form-group">
