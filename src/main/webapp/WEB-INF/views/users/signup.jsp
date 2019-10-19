@@ -2,6 +2,7 @@
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -42,7 +43,7 @@
                         <h4 class="card-title">Create new account</h4>
                     </div>
                     <div class="card-body">
-                        <form:form action="auth/signup" method="POST" modelAttribute="user">
+                        <form:form action="${contextPath}/auth/signup" method="POST" modelAttribute="user">
                             <div class="form-group">
                                 <label for="email">Email</label>
                                 <input type="email" id="email" name="email" class="form-control"

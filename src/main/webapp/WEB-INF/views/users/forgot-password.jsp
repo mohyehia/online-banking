@@ -43,7 +43,8 @@
                             <div class="form-group">
                                 <label for="email">Email</label>
 								<input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
-							</div>                  
+							</div> 
+							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>                 
                             <div class="form-group">
                                 <input type="submit" value="Submit" class="btn btn-block btn-primary" />
                             </div>
