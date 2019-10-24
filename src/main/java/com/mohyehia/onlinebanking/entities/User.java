@@ -51,7 +51,7 @@ public class User implements UserDetails {
 	private String email;
 	
 	@NotNull(message = "Password can't be empty.")
-	@Pattern(regexp = "^.*(?=.{6,15})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
+//	@Pattern(regexp = "^.*(?=.{6,15})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
 	private String password;
 	
 	@Transient
