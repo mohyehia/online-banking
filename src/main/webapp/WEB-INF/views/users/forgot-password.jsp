@@ -11,7 +11,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | Please sign in</title>
+    <title>Online Banking | Reset your password</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -29,7 +29,7 @@
 				
 				<c:if test="${error != null}">
 					<div class="alert alert-dismissible alert-danger">
-                    	Invalid username or password.
+                    	${error}
                 	</div>
 				</c:if>
 	
@@ -42,7 +42,7 @@
                         <form method="POST" action="${contextPath}/auth/forgot-password">
                             <div class="form-group">
                                 <label for="email">Email</label>
-								<input type="email" id="email" name="email" class="form-control" placeholder="Email Address" required autofocus>
+								<input type="email" id="email" name="email" class="form-control" placeholder="Email Address" autofocus>
 							</div> 
 							<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>                 
                             <div class="form-group">

@@ -44,6 +44,13 @@ public class UserService implements UserDetailsService{
 		return userRepository.save(user);
 	}
 	
+	public User update(User user, Long userId, String email) {
+		if(userRepository.findByIdAndEmail(userId, email).isPresent()) {
+			return userRepository.save(user);
+		}else
+			return null;
+	}
+	
 	public boolean exists(String email) {
 		return userRepository.findByEmail(email).isPresent();
 	}

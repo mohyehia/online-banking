@@ -27,11 +27,17 @@ public class ForgotPasswordController {
 	@PostMapping("/auth/forgot-password")
 	public String forgotPassword(Model model, @RequestParam("email") String email) {
 		LOG.info("Email Address => " + email);
+		if(email.trim().isEmpty()) {
+			model.addAttribute("error", "Please provide a valid email address.");
+			return "users/forgot-password";
+		}
 		//check if submitted email address exists in database
 		if(userService.exists(email)) {
 			LOG.info("email address exists!");
+			// Send email address for user with link to reset his password
 		} else {
-			LOG.info("email address doesn't exist!");
+			model.addAttribute("error", "This email address does not exist in database.");
+			return "users/forgot-password";
 		}
 		return "users/forgot-password"; 
 	}
