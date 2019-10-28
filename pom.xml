@@ -77,6 +77,12 @@
 			<artifactId>tomcat-embed-jasper</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+		<!-- Servlet dependency -->
+		<dependency>
+		    <groupId>javax.servlet</groupId>
+		    <artifactId>javax.servlet-api</artifactId>
+		    <scope>provided</scope>
+		</dependency>
 	</dependencies>
 
 	<build>

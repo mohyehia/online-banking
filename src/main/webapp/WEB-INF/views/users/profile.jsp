@@ -19,9 +19,21 @@
 		
 		<div id="myTabContent" class="tab-content">
 			<div class="tab-pane fade active show" id="profile">
+			
+				<c:if test="${errors.size() > 0}">
+					<div class="alert alert-dismissible alert-danger">
+						<c:forEach items="${errors}" var="error">
+	                		${error} <br />
+	                	</c:forEach>
+					</div>
+				</c:if>
+				<c:if test="${error != null}">
+					<div class="alert alert-dismissible alert-danger">${error}</div>
+				</c:if>
 				<c:if test="${success != null}">
 					<div class="alert alert-dismissible alert-success">${success}</div>
 				</c:if>
+				
 				<form:form method="POST" id="profileForm" action="${contextPath}/me">
 					<div class="form-group">
 						<label>Email Address</label><br>
@@ -58,9 +70,9 @@
 				</form:form>
 			</div>
 			<div class="tab-pane fade" id="password">
-				<c:if test="${errors.size() > 0}">
+				<c:if test="${passwordErrors.size() > 0}">
 					<div class="alert alert-dismissible alert-danger">
-						<c:forEach items="${errors}" var="error">
+						<c:forEach items="${passwordErrors}" var="error">
 	                		${error} <br />
 	                	</c:forEach>
 					</div>

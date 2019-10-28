@@ -24,8 +24,12 @@ public class SignupController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(SignupController.class);
 	
+	private final UserService userService;
+	
 	@Autowired
-	private UserService userService;
+	public SignupController(UserService userService) {
+		this.userService = userService;
+	}
 	
 	@GetMapping("/auth/signup")
 	public String viewSignup() {

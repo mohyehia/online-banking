@@ -2,9 +2,11 @@ package com.mohyehia.onlinebanking.services;
 
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.AccountStatusUserDetailsChecker;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -23,8 +25,10 @@ public class UserService implements UserDetailsService{
 	@Autowired
 	private UserRepository userRepository;
 	
-	@Autowired
-	private BCryptPasswordEncoder passwordEncoder;
+	@Bean
+	public BCryptPasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
@@ -36,8 +40,8 @@ public class UserService implements UserDetailsService{
 	
 	public User save(User user) {
 		if(exists(user.getEmail())) return null;
-		user.setPassword(passwordEncoder.encode(user.getPassword()));
-		if(user.getRoles() == null) {
+		user.setPassword(passwordEncoder().encode(user.getPassword()));
+		if(null == user.getRoles() || user.getRoles().isEmpty()) {
 			Set<Role> roles = new HashSet<>(Arrays.asList(new Role(2L)));
 			user.setRoles(roles);
 		}
@@ -53,6 +57,10 @@ public class UserService implements UserDetailsService{
 	
 	public boolean exists(String email) {
 		return userRepository.findByEmail(email).isPresent();
+	}
+	
+	public List<User> findAll(){
+		return userRepository.findAll();
 	}
 	
 }

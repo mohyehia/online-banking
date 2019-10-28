@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,10 +21,17 @@ import com.mohyehia.onlinebanking.services.UserService;
 
 @Controller
 public class UserController extends BaseController {
-	private static final Logger LOGGER = LoggerFactory.getLogger(UserController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(UserController.class);
+	
+	private final UserService userService;
+	private final PasswordEncoder passwordEncoder;
 	
 	@Autowired
-	private UserService userService;
+	public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+		this.userService = userService;
+		this.passwordEncoder = passwordEncoder;
+	}
+	
 	
 	@GetMapping("/me")
 	public String viewProfile() {
@@ -31,24 +39,33 @@ public class UserController extends BaseController {
 	}
 	
 	@PostMapping("/me")
-	public String updateProfile(RedirectAttributes attributes, Model model, @RequestParam("firstName") String firstName, 
+	public String updateProfile(RedirectAttributes attributes, Model model,
+			@RequestParam("firstName") String firstName,
 			@RequestParam("lastName") String lastName,
 			@RequestParam("city") String city,
 			@RequestParam("address") String address) {
 		
-		User user = getCurrentUser();
-		user.setFirstName(firstName);
-		user.setLastName(lastName);
-		user.setCity(city);
-		user.setAddress(address);
-		
-		if(userService.update(user, user.getId(), user.getEmail()) != null) {
-			LOGGER.info("user saved!");
-			attributes.addFlashAttribute("success", "Your data updated successfully!");
-			return "redirect:/me";
-		}else {
-			model.addAttribute("error", "Error updating user data!");
+		// Validate user data
+		List<String> errors = validateUserData(firstName, lastName, city, address);
+		LOG.info("errors size =>" + errors.size());
+		if(errors.size() > 0) {
+			model.addAttribute("errors", errors);
 			return "users/profile";
+		}else {
+			User user = getCurrentUser();
+			user.setFirstName(firstName);
+			user.setLastName(lastName);
+			user.setCity(city);
+			user.setAddress(address);
+			
+			if(userService.update(user, user.getId(), user.getEmail()) != null) {
+				LOG.info("user saved!");
+				attributes.addFlashAttribute("success", "Your data has been updated successfully!");
+				return "redirect:/me";
+			}else {
+				model.addAttribute("error", "Error updating user data!");
+				return "users/profile";
+			}
 		}
 	}
 	
@@ -57,30 +74,27 @@ public class UserController extends BaseController {
 			@RequestParam("currentPassword") String currentPassword,
 			@RequestParam("newPassword") String newPassword,
 			@RequestParam("confirmPassword") String confirmPassword) {
-		LOGGER.info(currentPassword + ", " + newPassword + ", " + confirmPassword);
-		List<String> errors = new ArrayList<>();
-		if(null == currentPassword || currentPassword.trim().isEmpty())
-			errors.add("Current password can not be empty!");
-		if(null == newPassword || newPassword.trim().isEmpty())
-			errors.add("New password can not be empty!");
-		if(!newPassword.trim().equals(confirmPassword.trim()))
-			errors.add("Confirmation password must equal new password!");
-		LOGGER.info("errors size =>" + errors.size());
+		LOG.info(currentPassword + ", " + newPassword + ", " + confirmPassword);
+		
+		List<String> errors = validateChangePassword(currentPassword, newPassword, confirmPassword);
+		LOG.info("errors size =>" + errors.size());
 		if(errors.isEmpty()) {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			if(!encoder.matches(currentPassword, getCurrentUser().getPassword()))
 				errors.add("Current password is not correct!");
 		}
 		if(!errors.isEmpty()) {
-			attributes.addFlashAttribute("errors", errors);
+			attributes.addFlashAttribute("passwordErrors", errors);
 			attributes.addFlashAttribute("title", "Change Password");
 			return "redirect:me#password";
 		}else {
 			// save new password here!
-			LOGGER.info("New password =>" + newPassword);
+			LOG.info("New password =>" + newPassword);
 			User user = getCurrentUser();
-			user.setPassword(newPassword);
+			user.setPassword(passwordEncoder.encode(newPassword));
+			LOG.info("New encoded password =>" + user.getPassword());
 			userService.update(user, user.getId(), user.getEmail());
+			// send an email to the user notifying him that his password has changed
 			attributes.addFlashAttribute("success", "Your password has been changed successfully!");
 			return "redirect:me";
 		}
@@ -94,5 +108,36 @@ public class UserController extends BaseController {
 	@ModelAttribute("title")
 	public String getTitle() {
 		return "Profile";
+	}
+	
+	private List<String> validateUserData(String firstName, String lastName, String city, String address){
+		List<String> errors = new ArrayList<>();
+		if(null == firstName || firstName.trim().isEmpty())
+			errors.add("First name cannot be empty!");
+		else if(firstName.length() < 3 || firstName.length() > 10)
+			errors.add("First name must be between 3 and 10 characters inclusive!");
+		
+		if(null == lastName || lastName.trim().isEmpty())
+			errors.add("Last name cannot be empty!");
+		else if(lastName.length() < 3 || lastName.length() > 10)
+			errors.add("Last name must be between 3 and 10 characters inclusive!");
+		
+		if(null == city || city.trim().isEmpty())
+			errors.add("City cannot be empty!");
+		
+		if(null == address || address.trim().isEmpty())
+			errors.add("Address cannot be empty!");
+		return errors;
+	}
+	
+	private List<String> validateChangePassword(String currentPassword, String newPassword, String confirmPassword){
+		List<String> errors = new ArrayList<>();
+		if(null == currentPassword || currentPassword.trim().isEmpty())
+			errors.add("Current password can not be empty!");
+		if(null == newPassword || newPassword.trim().isEmpty())
+			errors.add("New password can not be empty!");
+		if(!newPassword.trim().equals(confirmPassword.trim()))
+			errors.add("Confirmation password must equal new password!");
+		return errors;
 	}
 }

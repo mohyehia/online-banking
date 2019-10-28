@@ -66,5 +66,10 @@ public class Account {
 	public void setCreated(Date created) {
 		this.created = created;
 	}
-	
+
+	@Override
+	public String toString() {
+		return "Account [id=" + id + ", userId=" + userId + ", accountType=" + accountType + ", balance=" + balance
+				+ ", creditType=" + creditType + ", created=" + created + "]";
+	}
 }

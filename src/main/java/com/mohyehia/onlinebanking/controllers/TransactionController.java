@@ -18,7 +18,8 @@ public class TransactionController extends BaseController{
 	}
 	
 	@GetMapping("/add")
-	public String addTransaction() {
+	public String viewAddTransaction(Model model) {
+		model.addAttribute("title", "Add new transaction");
 		return "transactions/add";
 	}
 	

@@ -8,6 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mohyehia.onlinebanking.services.UserService;
 
@@ -25,7 +26,7 @@ public class ForgotPasswordController {
 	}
 	
 	@PostMapping("/auth/forgot-password")
-	public String forgotPassword(Model model, @RequestParam("email") String email) {
+	public String forgotPassword(Model model, RedirectAttributes attributes, @RequestParam("email") String email) {
 		LOG.info("Email Address => " + email);
 		if(email.trim().isEmpty()) {
 			model.addAttribute("error", "Please provide a valid email address.");
@@ -34,11 +35,17 @@ public class ForgotPasswordController {
 		//check if submitted email address exists in database
 		if(userService.exists(email)) {
 			LOG.info("email address exists!");
+			// check first if this email address disabled
+			
 			// Send email address for user with link to reset his password
+			/*
+			 * sending email logic here!
+			 */
+			attributes.addFlashAttribute("success", "An email has been sent to your email address with a link to reset your password!");
+			return "redirect:/auth/login";
 		} else {
 			model.addAttribute("error", "This email address does not exist in database.");
 			return "users/forgot-password";
 		}
-		return "users/forgot-password"; 
 	}
 }

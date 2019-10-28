@@ -1,7 +1,6 @@
 package com.mohyehia.onlinebanking.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -20,17 +19,20 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final String[] USER_ENDPOINTS = {"/accounts/**", "/transactions/**", "/me"};
 	private final String[] ADMIN_ENDPOINTS = {"/admin/**"};
 	
+	private final UserService userService;
+	private final LoginSuccessHandler successHandler;
+	private final BCryptPasswordEncoder passwordEncoder;
+	
 	@Autowired
-	private UserService userService;
-	
-	@Bean
-	public BCryptPasswordEncoder passwordEncoder() {
-		return new BCryptPasswordEncoder();
+	public SecurityConfig(UserService userService, LoginSuccessHandler successHandler, BCryptPasswordEncoder passwordEncoder) {
+		this.userService = userService;
+		this.successHandler = successHandler;
+		this.passwordEncoder = passwordEncoder;
 	}
-	
+		
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.userDetailsService(userService).passwordEncoder(passwordEncoder());
+		auth.userDetailsService(userService).passwordEncoder(passwordEncoder);
 	}
 	
 	@Override
@@ -42,7 +44,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.and()
 			.formLogin()
             .loginPage("/auth/login")
-            .defaultSuccessUrl("/accounts")
+            .successHandler(successHandler)
 			.and()
 			.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))

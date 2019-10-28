@@ -62,7 +62,7 @@
                                 </div> <!-- form-group end.// -->
                             </div>
                             <div class="form-row">
-                                <div class=" col form-group">
+                                <div class="col form-group">
                                     <label for="city">City</label>
                                     <select id="city" name="city" class="form-control">
                                         <option> Choose...</option>

@@ -21,7 +21,7 @@
     <div class="container" style="margin-top: 6%">
         <!-- Content of each page is here -->
         <div class="row justify-content-center">
-            <div class="col-md-6">
+            <div class="col-md-5">
 
 				<c:if test="${success != null}">
 					<div class="alert alert-dismissible alert-success">${success}</div>
