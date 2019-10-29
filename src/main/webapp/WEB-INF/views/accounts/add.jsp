@@ -27,8 +27,9 @@
                                 <label for="accountType">Account Type</label>
                                 <select id="accountType" name="accountType" class="form-control">
                                     <option> Choose...</option>
-                                    <option value="Savings">Savings Account</option>
-                                    <option value="Primary">Primary Account</option>
+                                    <c:forEach var="accountType" items="${accountTypes}">
+                                    	<option value="${accountType}">${accountType}</option>
+                                    </c:forEach>
                                 </select>
                             </div>
                             <div class="form-group">

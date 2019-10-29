@@ -1,5 +1,6 @@
 package com.mohyehia.onlinebanking.entities;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ public class Account {
 	private Long id;
 	private Long userId;
 	private String accountType;
-	private String balance;
+	private BigDecimal balance;
 	private String creditType;
 	private Date created;
 	
@@ -22,7 +23,7 @@ public class Account {
 		this.created = new Date();
 	}
 	
-	public Account(Long userId, String accountType, String balance, String creditType) {
+	public Account(Long userId, String accountType, BigDecimal balance, String creditType) {
 		this();
 		this.userId = userId;
 		this.accountType = accountType;
@@ -48,10 +49,10 @@ public class Account {
 	public void setAccountType(String accountType) {
 		this.accountType = accountType;
 	}
-	public String getBalance() {
+	public BigDecimal getBalance() {
 		return balance;
 	}
-	public void setBalance(String balance) {
+	public void setBalance(BigDecimal balance) {
 		this.balance = balance;
 	}
 	public String getCreditType() {

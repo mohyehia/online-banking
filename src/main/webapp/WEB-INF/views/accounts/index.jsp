@@ -9,38 +9,32 @@
 		<h4>List of your Accounts</h4>
 	</div>
 	<div class="col-md-6 text-right">
+		<c:if test="${accountsSize < 3}">
 		<a class="btn btn-primary" href="${contextPath}/accounts/add">Add New Account</a>
+		</c:if>
 	</div>
 </div>
 
 <table class="table table-hover text-center" style="margin-top: 15px">
 	<thead>
 		<tr class="table-active">
-			<th scope="col">Type</th>
-			<th scope="col">Column heading</th>
-			<th scope="col">Column heading</th>
-			<th scope="col">Column heading</th>
+			<th scope="col">#</th>
+			<th scope="col">Account Type</th>
+			<th scope="col">Credit Type</th>
+			<th scope="col">Created</th>
+			<th scope="col">Balance</th>
 		</tr>
 	</thead>
 	<tbody>
-		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
-		</tr>
-		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
-		</tr>
-		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
-		</tr>
+		<c:forEach var="account" items="${accounts}">
+			<tr>
+				<th scope="row">${account.id}</th>
+				<td>${account.accountType}</td>
+				<td>${account.creditType}</td>
+				<td>${account.created}</td>
+				<td>${account.balance} EGP</td>
+			</tr>
+		</c:forEach>
 	</tbody>
 </table>
 
