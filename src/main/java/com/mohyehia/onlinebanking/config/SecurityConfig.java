@@ -53,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.invalidateHttpSession(true)
 			// add exception handling, access denied page & error page
 			.and()
+			.exceptionHandling().accessDeniedPage("/403")
+			.and()
 			.cors().disable();
 	}
 	

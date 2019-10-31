@@ -47,7 +47,7 @@ public class AccountController extends BaseController {
 		List<Account> accounts = getUserAccounts(getCurrentUser().getId());
 		if(accounts.size() == 3) {
 			LOG.info("Found 3 accounts in db. redirecting to the error page");
-			return "redirect:/error";
+			return "errors/addAccountError";
 		}else {
 			model.addAttribute("title", "Add new account");
 			Set<String> accountTypes = new HashSet<>(Arrays.asList("AC", "AT", "AS"));

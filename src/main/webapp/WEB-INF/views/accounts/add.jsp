@@ -56,3 +56,24 @@
     </div>
 
 <jsp:include page="../assets/footer.jsp" />
+<script>
+$(document).ready(function(){
+	$('#accountType').change(function(){
+		var accountType = $(this).val();
+		switch(accountType){
+		case 'AC':
+			console.log('AC selected');
+			break;
+		case 'AT':
+			console.log('AT selected');
+			break;
+		case 'AS':
+			console.log('AS selected');
+			break;
+		default:
+			console.log('No account type selected!');
+			break;
+		}
+	});
+});
+</script>
