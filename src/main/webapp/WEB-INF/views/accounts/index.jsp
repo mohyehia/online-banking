@@ -16,6 +16,9 @@
 </div>
 
 <table class="table table-hover text-center" style="margin-top: 15px">
+	<c:if test="${success != null}">
+		<div class="alert alert-dismissible alert-success">${success}</div>
+	</c:if>
 	<thead>
 		<tr class="table-active">
 			<th scope="col">#</th>
