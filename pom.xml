@@ -79,10 +79,17 @@
 		</dependency>
 		<!-- Servlet dependency -->
 		<dependency>
-		    <groupId>javax.servlet</groupId>
-		    <artifactId>javax.servlet-api</artifactId>
-		    <scope>provided</scope>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<scope>provided</scope>
 		</dependency>
+		
+		<dependency>
+			<groupId>org.projectlombok</groupId>
+			<artifactId>lombok</artifactId>
+			<scope>provided</scope>
+		</dependency>
+
 	</dependencies>
 
 	<build>
@@ -101,7 +108,7 @@
 	</build>
 
 	<packaging>war</packaging>
-	
+
 	<profiles>
 		<profile>
 			<id>windows</id>

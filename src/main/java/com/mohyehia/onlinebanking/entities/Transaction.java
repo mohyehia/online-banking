@@ -8,14 +8,17 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
+import lombok.Data;
+
 @Entity
+@Data
 public class Transaction {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	private Long userId;
-	private Long fromAccountId;
-	private Long toAccountId;
+	private long id;
+	private long userId;
+	private long fromAccountId;
+	private long toAccountId;
 	private BigDecimal amount;
 	private Date created;
 	
@@ -29,54 +32,6 @@ public class Transaction {
 		this.fromAccountId = fromAccountId;
 		this.toAccountId = toAccountId;
 		this.amount = amount;
-	}
-
-	public Long getId() {
-		return id;
-	}
-
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	public Long getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Long userId) {
-		this.userId = userId;
-	}
-
-	public Long getFromAccountId() {
-		return fromAccountId;
-	}
-
-	public void setFromAccountId(Long fromAccountId) {
-		this.fromAccountId = fromAccountId;
-	}
-
-	public Long getToAccountId() {
-		return toAccountId;
-	}
-
-	public void setToAccountId(Long toAccountId) {
-		this.toAccountId = toAccountId;
-	}
-
-	public BigDecimal getAmount() {
-		return amount;
-	}
-
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
-	}
-
-	public Date getCreated() {
-		return created;
-	}
-
-	public void setCreated(Date created) {
-		this.created = created;
 	}
 	
 }
