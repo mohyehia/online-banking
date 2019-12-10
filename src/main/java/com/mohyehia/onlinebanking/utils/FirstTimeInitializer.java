@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 
 import com.mohyehia.onlinebanking.entities.Role;
 import com.mohyehia.onlinebanking.entities.User;
-import com.mohyehia.onlinebanking.services.UserService;
+import com.mohyehia.onlinebanking.services.framework.UserService;
 
 @Component
 public class FirstTimeInitializer implements CommandLineRunner{

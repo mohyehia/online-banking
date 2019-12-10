@@ -20,7 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mohyehia.onlinebanking.entities.Account;
 import com.mohyehia.onlinebanking.entities.User;
-import com.mohyehia.onlinebanking.services.AccountService;
+import com.mohyehia.onlinebanking.services.framework.AccountService;
 
 @Controller
 @RequestMapping("/accounts")

@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mohyehia.onlinebanking.entities.User;
-import com.mohyehia.onlinebanking.services.UserService;
+import com.mohyehia.onlinebanking.services.framework.UserService;
 
 @Controller
 public class SignupController {
