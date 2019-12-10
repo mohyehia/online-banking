@@ -19,6 +19,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 	private final String[] USER_ENDPOINTS = {"/accounts/**", "/transactions/**", "/me"};
 	private final String[] ADMIN_ENDPOINTS = {"/admin/**"};
 	
+	private final String LOGIN_URL = "/auth/login";
+	
 	private final UserService userService;
 	private final LoginSuccessHandler successHandler;
 	private final BCryptPasswordEncoder passwordEncoder;
@@ -43,17 +45,26 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter{
 			.antMatchers(ADMIN_ENDPOINTS).hasRole("ADMIN")
 			.and()
 			.formLogin()
-            .loginPage("/auth/login")
+            .loginPage(LOGIN_URL)
             .successHandler(successHandler)
 			.and()
 			.logout()
 			.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
-			.logoutSuccessUrl("/auth/login")
+			.logoutSuccessUrl(LOGIN_URL)
 			.deleteCookies("JSESSIONID")
 			.invalidateHttpSession(true)
 			// add exception handling, access denied page & error page
 			.and()
-			.exceptionHandling().accessDeniedPage("/403")
+			.exceptionHandling()
+			.accessDeniedPage("/403")
+			.authenticationEntryPoint(new AjaxAwareAuthenticationEntryPoint(LOGIN_URL))
+			.and()
+			// add session management configuration
+			.sessionManagement()
+			.maximumSessions(1)
+			.expiredUrl(LOGIN_URL)
+			.and()
+			.invalidSessionUrl(LOGIN_URL)
 			.and()
 			.cors().disable();
 	}
