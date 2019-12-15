@@ -5,6 +5,10 @@ spring:
     url: jdbc:mysql://localhost:3306/online-banking?verifyServerCertificate=false&useSSL=true
     username: root
     password: root
+  messages:
+    basename: messages
+  mvc:
+    locale: en_US
 # Hibernate Properties
 # The SQL dialect makes Hibernate generate better SQL for the chosen database
   jpa:

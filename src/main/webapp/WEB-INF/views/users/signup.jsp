@@ -46,47 +46,49 @@
                         <form:form action="${contextPath}/auth/signup" method="POST" modelAttribute="user">
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" id="email" name="email" class="form-control"
-                                    placeholder="Enter email address" required>
+                                <form:input path="email" id="email" cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    placeholder="Enter email address" />
+                                <form:errors cssClass="text-danger" path="email" />
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
                                     <label for="firstName">First name </label>   
-                                        <input type="text" id="firstName" name="firstName" class="form-control" 
-                                        placeholder="Your first name" required>
-                                </div> <!-- form-group end.// -->
+                                        <form:input path="firstName" id="firstName" cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                        placeholder="Your first name" />
+                                        <form:errors cssClass="text-danger" path="firstName" />
+                                </div>
                                 <div class="col form-group">
                                     <label for="lastName">Last name</label>
-                                        <input type="text" class="form-control" name="lastName" id="lastName"
-                                        placeholder="Your last name" required>
-                                </div> <!-- form-group end.// -->
+                                        <form:input path="lastName" cssClass="form-control" id="lastName" cssErrorClass="form-control is-invalid"
+                                        placeholder="Your last name" />
+                                        <form:errors cssClass="text-danger" path="lastName" />
+                                </div> 
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
                                     <label for="city">City</label>
-                                    <select id="city" name="city" class="form-control">
-                                        <option> Choose...</option>
-                                        <option>Cairo</option>
-                                        <option>Alex</option>
-                                        <option>Giza</option>
-                                        <option>Tanta</option>
-                                    </select>
+                                    <form:select id="city" path="city" cssClass="form-control" items="${cities}" cssErrorClass="form-control is-invalid">
+                                    </form:select>
+                                    <form:errors cssClass="text-danger" path="city" />
                                 </div>
                                 <div class="col form-group">
                                     <label for="address">Address</label>   
-                                        <input type="text" id="address" name="address" class="form-control" 
-                                        placeholder="Address" required>
+                                        <form:input path="address" id="address" cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                        placeholder="Address" />
+                                        <form:errors cssClass="text-danger" path="address" />
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="password">Password</label>   
-                                    <input type="password" id="password" name="password" class="form-control" 
-                                    placeholder="Password" required>
+                                    <form:input type="password" path="password" id="password" cssClass="form-control" cssErrorClass="form-control is-invalid"
+                                    placeholder="Password" />
+                                    <form:errors cssClass="text-danger" path="password" />
                             </div>
                             <div class="form-group">
                                 <label for="confirmPassword">Confirmation Password</label>
-                                    <input type="password" class="form-control" name="confirmPassword" id="confirmPassword"
-                                    placeholder="Confirmation Password" required>
+                                    <form:input type="password" path="confirmPassword" cssClass="form-control" id="confirmPassword" cssErrorClass="form-control is-invalid"
+                                    placeholder="Confirmation Password" />
+                                    <form:errors cssClass="text-danger" path="confirmPassword" />
                             </div> 
                             <div class="form-group">
                                 <input type="submit" value="Signup" class="btn btn-block btn-primary" />

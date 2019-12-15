@@ -15,6 +15,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Transient;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -43,21 +44,21 @@ public class User implements UserDetails {
 	@Size(min = 3, max = 10, message = "Last name must be between 3 and 10 characters inclusive.")
 	private String lastName;
 	
-	@NotNull(message = "You must specify your city.")
+	@NotBlank(message = "You must specify your city.")
 	private String city;
 	
-	@NotNull(message = "Please provide your current address.")
+	@NotBlank(message = "Please provide your current address.")
 	private String address;
 	
-	@NotNull(message = "Email address can not be empty.")
+	@NotBlank(message = "Email address can not be empty.")
 	@Email(message = "Please provide a valid email address.")
 	private String email;
 	
-	@NotNull(message = "Password can't be empty.")
-//	@Pattern(regexp = "^.*(?=.{6,15})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
+	@Pattern(regexp = "^.*(?=.{6,15})(?=..*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=]).*$", message = "Password must be between 6 and 15 characters long and contain at least one upper case letter, one lower case letter, and one digit.")
 	private String password;
 	
 	@Transient
+	@NotBlank(message = "Confirmation password can not be empty.")
 	private String confirmPassword;
 	private boolean enabled;
 	private Date created;

@@ -20,6 +20,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mohyehia.onlinebanking.entities.Account;
 import com.mohyehia.onlinebanking.entities.User;
+import com.mohyehia.onlinebanking.exceptions.AddAccountException;
 import com.mohyehia.onlinebanking.services.framework.AccountService;
 
 @Controller
@@ -49,7 +50,7 @@ public class AccountController extends BaseController {
 		List<Account> accounts = getUserAccounts();
 		if(accounts.size() == 3) {
 			LOG.info("Found 3 accounts in db. redirecting to the error page");
-			return "errors/addAccountError";
+			throw new AddAccountException("Cannot add another account as there are 3 accounts for this user");
 		}else {
 			model.addAttribute("title", "Add new account");
 			Set<String> accountTypes = new HashSet<>(Arrays.asList("AC", "AT", "AS"));

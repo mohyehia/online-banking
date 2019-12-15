@@ -2,6 +2,7 @@ package com.mohyehia.onlinebanking.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
@@ -31,5 +32,12 @@ public class WebConfig implements WebMvcConfigurer {
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		registry.addResourceHandler("/css/**").addResourceLocations("classpath:/static/css/");
+	}
+	
+	@Bean(name="messageSource")
+	public ResourceBundleMessageSource bundleMessageSource() {
+	    ResourceBundleMessageSource messageSource = new ResourceBundleMessageSource();
+	    messageSource.setBasename("messages");
+	    return messageSource;
 	}
 }
