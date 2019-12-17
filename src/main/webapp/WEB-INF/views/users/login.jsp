@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
@@ -11,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | Please sign in</title>
+    <title><spring:message code="LOGIN_TITLE" /></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -36,28 +37,28 @@
 
                 <div class="card border-light mb-3">
                     <div class="card-header">
-                        <h4 class="card-title">Login to your account</h4>
+                        <h4 class="card-title"><spring:message code="LOGIN_FORM_TITLE" /></h4>
                     </div>
                     <div class="card-body">
                         <form name="login" method="post" action="login">
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email"><spring:message code="LOGIN_EMAIL" /></label>
 								<input type="text" id="username" name="username" class="form-control" placeholder="Email Address" required autofocus>                            </div>
                             <div class="form-group">
-                                <label for="password">Password</label>
+                                <label for="password"><spring:message code="LOGIN_PASSWORD" /></label>
                                 <input type="password" id="password" name="password" class="form-control" placeholder="Password" required>
                             </div>
                             
                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                             
                             <div class="form-group">
-                                <input type="submit" value="Login" class="btn btn-block btn-primary" />
+                                <input type="submit" value="<spring:message code="LOGIN_FORM_BUTTON" />" class="btn btn-block btn-primary" />
                             </div>
-                            <a class="text-danger" href="${contextPath}/auth/forgot-password">Forgot Your Password?</a>
+                            <a class="text-danger" href="${contextPath}/auth/forgot-password"><spring:message code="LOGIN_FORGET_PASSWORD" /></a>
                         </form>
                     </div>
                     <div class="border-top card-body text-center">
-                        Don't have an account? <a class="text-primary" href="${contextPath}/auth/signup">Signup here</a>
+                        <spring:message code="LOGIN_NOT_HAVE_ACCOUNT" /> <a class="text-primary" href="${contextPath}/auth/signup"><spring:message code="LOGIN_LINK_TO_SIGNUP" /></a>
                     </div>
                 </div>
 

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
     pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 
@@ -11,7 +12,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Online Banking | Create new account</title>
+    <title><spring:message code="SIGNUP_TITLE" /></title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootswatch/4.3.1/flatly/bootstrap.min.css"
         crossorigin="anonymous">
 </head>
@@ -40,25 +41,25 @@
 
                 <div class="card border-light mb-3">
                     <div class="card-header">
-                        <h4 class="card-title">Create new account</h4>
+                        <h4 class="card-title"><spring:message code="SIGNUP_FORM_TITLE" /></h4>
                     </div>
                     <div class="card-body">
                         <form:form action="${contextPath}/auth/signup" method="POST" modelAttribute="user">
                             <div class="form-group">
-                                <label for="email">Email</label>
+                                <label for="email"><spring:message code="SIGNUP_EMAIL" /></label>
                                 <form:input path="email" id="email" cssClass="form-control" cssErrorClass="form-control is-invalid"
                                     placeholder="Enter email address" />
                                 <form:errors cssClass="text-danger" path="email" />
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <label for="firstName">First name </label>   
+                                    <label for="firstName"><spring:message code="SIGNUP_FIRST_NAME" /></label>   
                                         <form:input path="firstName" id="firstName" cssClass="form-control" cssErrorClass="form-control is-invalid"
                                         placeholder="Your first name" />
                                         <form:errors cssClass="text-danger" path="firstName" />
                                 </div>
                                 <div class="col form-group">
-                                    <label for="lastName">Last name</label>
+                                    <label for="lastName"><spring:message code="SIGNUP_LAST_NAME" /></label>
                                         <form:input path="lastName" cssClass="form-control" id="lastName" cssErrorClass="form-control is-invalid"
                                         placeholder="Your last name" />
                                         <form:errors cssClass="text-danger" path="lastName" />
@@ -66,37 +67,37 @@
                             </div>
                             <div class="form-row">
                                 <div class="col form-group">
-                                    <label for="city">City</label>
+                                    <label for="city"><spring:message code="SIGNUP_CITY" /></label>
                                     <form:select id="city" path="city" cssClass="form-control" items="${cities}" cssErrorClass="form-control is-invalid">
                                     </form:select>
                                     <form:errors cssClass="text-danger" path="city" />
                                 </div>
                                 <div class="col form-group">
-                                    <label for="address">Address</label>   
+                                    <label for="address"><spring:message code="SIGNUP_ADDRESS" /></label>   
                                         <form:input path="address" id="address" cssClass="form-control" cssErrorClass="form-control is-invalid"
                                         placeholder="Address" />
                                         <form:errors cssClass="text-danger" path="address" />
                                 </div>
                             </div>
                             <div class="form-group">
-                                <label for="password">Password</label>   
+                                <label for="password"><spring:message code="SIGNUP_PASSWORD" /></label>   
                                     <form:input type="password" path="password" id="password" cssClass="form-control" cssErrorClass="form-control is-invalid"
                                     placeholder="Password" />
                                     <form:errors cssClass="text-danger" path="password" />
                             </div>
                             <div class="form-group">
-                                <label for="confirmPassword">Confirmation Password</label>
+                                <label for="confirmPassword"><spring:message code="SIGNUP_CONFIRM_PASSWORD" /></label>
                                     <form:input type="password" path="confirmPassword" cssClass="form-control" id="confirmPassword" cssErrorClass="form-control is-invalid"
                                     placeholder="Confirmation Password" />
                                     <form:errors cssClass="text-danger" path="confirmPassword" />
                             </div> 
                             <div class="form-group">
-                                <input type="submit" value="Signup" class="btn btn-block btn-primary" />
+                                <input type="submit" value="<spring:message code="SIGNUP_FORM_BUTTON" />" class="btn btn-block btn-primary" />
                             </div>
                         </form:form>
                     </div>
                     <div class="border-top card-body text-center">
-                        Already have account? <a class="text-primary" href="${pageContext.request.contextPath}/auth/login">Login here</a>
+                        <spring:message code="SIGNUP_HAVE_ACCOUNT" /> <a class="text-primary" href="${pageContext.request.contextPath}/auth/login"><spring:message code="SIGNUP_LINK_TO_LOGIN" /></a>
                     </div>
                 </div>
 
