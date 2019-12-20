@@ -24,7 +24,7 @@ import com.mohyehia.onlinebanking.services.framework.UserService;
 @Controller
 public class SignupController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(SignupController.class);
+	private static final Logger LOG = LoggerFactory.getLogger(SignupController.class);
 	
 	private final UserService userService;
 	private final MessageSource messageSource;
@@ -42,16 +42,17 @@ public class SignupController {
 	
 	@PostMapping("/auth/signup")
 	public String saveUser(@Valid @ModelAttribute("user") User user, Errors errors, RedirectAttributes attributes, Model model) {
-		LOGGER.info(user.toString());
+		LOG.info(user.toString());
 		if(errors.hasErrors()) {
 			return "users/signup";
 		}
-		if(!user.getPassword().trim().equals(user.getConfirmPassword().trim()))
+		if(!user.getPassword().trim().equals(user.getConfirmPassword().trim())) {
 			errors.rejectValue("confirmPassword", "SIGNUP.CONFIRM_PASSWORD");
+		}
 		if(errors.hasErrors()) {
 			return "users/signup";
 		}else {
-			LOGGER.info("Request passed!");
+			LOG.info("Request passed!");
 			if(userService.save(user) != null) {
 				attributes.addFlashAttribute("success", messageSource.getMessage("SIGNUP.ACCOUNT_CREATED_SUCCESSFULLY", new Object[] {}, Locale.ENGLISH));
 				return "redirect:/auth/login";

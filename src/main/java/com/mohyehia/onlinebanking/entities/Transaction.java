@@ -26,7 +26,7 @@ public class Transaction {
 		this.created = new Date();
 	}
 
-	public Transaction(Long userId, Long fromAccountId, Long toAccountId, BigDecimal amount) {
+	public Transaction(long userId, long fromAccountId, long toAccountId, BigDecimal amount) {
 		this();
 		this.userId = userId;
 		this.fromAccountId = fromAccountId;

@@ -48,7 +48,7 @@ public class UserServiceImpl implements UserService{
 		if(exists(user.getEmail())) return null;
 		user.setPassword(passwordEncoder().encode(user.getPassword()));
 		if(null == user.getRoles() || user.getRoles().isEmpty()) {
-			Set<Role> roles = new HashSet<>(Arrays.asList(new Role(2L)));
+			Set<Role> roles = new HashSet<>(Arrays.asList(new Role(2)));
 			user.setRoles(roles);
 		}
 		return userDAO.save(user);

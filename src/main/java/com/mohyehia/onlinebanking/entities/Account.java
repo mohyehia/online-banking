@@ -26,7 +26,7 @@ public class Account {
 		this.created = new Date();
 	}
 	
-	public Account(Long userId, String accountType, BigDecimal balance, String creditType) {
+	public Account(long userId, String accountType, BigDecimal balance, String creditType) {
 		this();
 		this.userId = userId;
 		this.accountType = accountType;
