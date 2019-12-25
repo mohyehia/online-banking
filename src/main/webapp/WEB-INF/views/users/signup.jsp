@@ -24,14 +24,6 @@
         <div class="row justify-content-center">
             <div class="col-md-6">
 
-				<c:if test="${errors != null}">
-					<div class="alert alert-dismissible alert-danger">
-					<button type="button" class="close" data-dismiss="alert">&times;</button>
-                    	<c:forEach items="${errors}" var="error">
-                    		${error.defaultMessage} <br />
-                    	</c:forEach>
-                	</div>
-				</c:if>
 				<c:if test="${err != null}">
 					<div class="alert alert-dismissible alert-danger">
 					<button type="button" class="close" data-dismiss="alert">&times;</button>

@@ -1,7 +1,7 @@
 package com.mohyehia.onlinebanking.entities;
 
+import java.time.LocalDateTime;
 import java.util.Collection;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -58,10 +59,10 @@ public class User implements UserDetails {
 	private String password;
 	
 	@Transient
-	@NotBlank(message = "Confirmation password can not be empty.")
 	private String confirmPassword;
 	private boolean enabled;
-	private Date created;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime created;
 	private boolean accountExpired;
 
 	private boolean credentialsExpired;
@@ -74,8 +75,8 @@ public class User implements UserDetails {
 	private Set<Role> roles;
 
 	public User() {
-		this.created = new Date();
-		this.enabled = true;
+		this.created = LocalDateTime.now();
+		this.enabled = false;
 		this.accountExpired = false;
 		this.accountLocked = false;
 		this.credentialsExpired = false;

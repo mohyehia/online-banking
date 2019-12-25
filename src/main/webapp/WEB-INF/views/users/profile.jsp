@@ -41,13 +41,13 @@
 					</div>
 					<div class="form-group">
 						<label for="firstName">First name</label>
-						<input type="text" name="firstName" class="form-control" value="${user.firstName}"
-							placeholder="Your first name" required>
+						<input type="text" name="firstName" id="firstName" class="form-control" value="${user.firstName}"
+							placeholder="Your first name" />
 					</div>
 					<div class="form-group">
 						<label for="lastName">Last name</label>
-						<input type="text" class="form-control" name="lastName" value="${user.lastName}"
-							placeholder="Your last name" required>
+						<input type="text" class="form-control" name="lastName" id="lastName" value="${user.lastName}"
+							placeholder="Your last name" />
 					</div>
 					<div class="form-group">
 						<label for="city">City</label> <select id="city" name="city" class="form-control">
@@ -61,7 +61,7 @@
 					<div class="form-group">
 						<label for="address">Address</label>
 						<input type="text" id="address" name="address" class="form-control" value="${user.address}"
-							placeholder="Address" required>
+							placeholder="Address" />
 					</div>
 					<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 					<div class="form-group">
@@ -105,6 +105,10 @@
 
 <script>
 $(document).ready(function(){
+	// change nav item class active
+	$(".nav-item").removeClass('active');
+    $("#profileNavID").addClass('active');
+
 	var url = window.location.href;
 	if(url === 'http://localhost:8081/me#password'){
 		var activeTab = url.substring(url.indexOf("#") + 1);

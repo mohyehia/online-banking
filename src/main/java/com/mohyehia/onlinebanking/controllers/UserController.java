@@ -2,10 +2,12 @@ package com.mohyehia.onlinebanking.controllers;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -25,11 +27,13 @@ public class UserController extends BaseController {
 	
 	private final UserService userService;
 	private final PasswordEncoder passwordEncoder;
+	private final MessageSource messageSource;
 	
 	@Autowired
-	public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder) {
+	public UserController(UserService userService, BCryptPasswordEncoder passwordEncoder, MessageSource messageSource) {
 		this.userService = userService;
 		this.passwordEncoder = passwordEncoder;
+		this.messageSource = messageSource;
 	}
 	
 	
@@ -60,10 +64,10 @@ public class UserController extends BaseController {
 			
 			if(userService.update(user, user.getId(), user.getEmail()) != null) {
 				LOG.info("user saved!");
-				attributes.addFlashAttribute("success", "Your data has been updated successfully!");
+				attributes.addFlashAttribute("success", messageSource.getMessage("PROFILE_UPDATED", new Object[] {}, Locale.ENGLISH));
 				return "redirect:/me";
 			}else {
-				model.addAttribute("error", "Error updating user data!");
+				model.addAttribute("error", messageSource.getMessage("ERROR_UPDATING_PROFILE", new Object[] {}, Locale.ENGLISH));
 				return "users/profile";
 			}
 		}
@@ -81,7 +85,7 @@ public class UserController extends BaseController {
 		if(errors.isEmpty()) {
 			BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 			if(!encoder.matches(currentPassword, getCurrentUser().getPassword()))
-				errors.add("Current password is not correct!");
+				errors.add(messageSource.getMessage("CURRENT_PASSWORD_NOT_CORRECT", new Object[] {}, Locale.ENGLISH));
 		}
 		if(!errors.isEmpty()) {
 			attributes.addFlashAttribute("passwordErrors", errors);
@@ -95,7 +99,7 @@ public class UserController extends BaseController {
 			LOG.info("New encoded password =>" + user.getPassword());
 			userService.update(user, user.getId(), user.getEmail());
 			// send an email to the user notifying him that his password has changed
-			attributes.addFlashAttribute("success", "Your password has been changed successfully!");
+			attributes.addFlashAttribute("success", messageSource.getMessage("PASSWORD_CHANGED_SUCCESSFULLY", new Object[] {}, Locale.ENGLISH));
 			return "redirect:me";
 		}
 	}

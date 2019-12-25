@@ -1,12 +1,14 @@
 package com.mohyehia.onlinebanking.entities;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 
@@ -20,10 +22,13 @@ public class Account {
 	private String accountType;
 	private BigDecimal balance;
 	private String creditType;
-	private Date created;
+	@DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+	private LocalDateTime created;
+	private boolean active;
 	
 	public Account() {
-		this.created = new Date();
+		this.created = LocalDateTime.now();
+		this.active = true;
 	}
 	
 	public Account(long userId, String accountType, BigDecimal balance, String creditType) {

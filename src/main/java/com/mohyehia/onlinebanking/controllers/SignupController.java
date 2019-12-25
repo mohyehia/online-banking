@@ -43,17 +43,12 @@ public class SignupController {
 	@PostMapping("/auth/signup")
 	public String saveUser(@Valid @ModelAttribute("user") User user, Errors errors, RedirectAttributes attributes, Model model) {
 		LOG.info(user.toString());
-		if(errors.hasErrors()) {
-			return "users/signup";
-		}
-		if(!user.getPassword().trim().equals(user.getConfirmPassword().trim())) {
-			errors.rejectValue("confirmPassword", "SIGNUP.CONFIRM_PASSWORD");
-		}
-		if(errors.hasErrors()) {
+		if(!validConfirmationPassword(user, errors)) {
 			return "users/signup";
 		}else {
 			LOG.info("Request passed!");
 			if(userService.save(user) != null) {
+				// sending mail to the user with confirmation link
 				attributes.addFlashAttribute("success", messageSource.getMessage("SIGNUP.ACCOUNT_CREATED_SUCCESSFULLY", new Object[] {}, Locale.ENGLISH));
 				return "redirect:/auth/login";
 			}else {
@@ -61,6 +56,17 @@ public class SignupController {
 				return "users/signup";
 			}
 		}
+	}
+	
+	private boolean validConfirmationPassword(User user, Errors errors) {
+		if(user.getConfirmPassword() == null || user.getConfirmPassword().isEmpty()) {
+			errors.rejectValue("confirmPassword", "SIGNUP.CONFIRM_PASSWORD_EMPTY");
+		}else if(!user.getPassword().trim().equals(user.getConfirmPassword().trim())) {
+			errors.rejectValue("confirmPassword", "SIGNUP.CONFIRM_PASSWORD");
+		}
+		if(errors.hasErrors())
+			return false;
+		return true;
 	}
 	
 	@ModelAttribute("title")
@@ -77,4 +83,5 @@ public class SignupController {
 	public List<String> populateCities(){
 		return Arrays.asList("Cairo", "Alex", "Giza", "Tanta");
 	}
+	
 }

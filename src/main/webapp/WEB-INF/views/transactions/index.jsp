@@ -15,34 +15,39 @@
 </div>
 
 <table class="table table-hover text-center" style="margin-top: 15px">
+	<c:if test="${success != null}">
+		<div class="alert alert-dismissible alert-success">
+			<button type="button" class="close" data-dismiss="alert">&times;</button>
+			${success}
+		</div>
+	</c:if>
 	<thead>
 		<tr class="table-active">
-			<th scope="col">Type</th>
-			<th scope="col">Column heading</th>
-			<th scope="col">Column heading</th>
-			<th scope="col">Column heading</th>
+			<th scope="col"><spring:message code="TRANSACTIONS_HEADER_NUMBER" /></th>
+			<th scope="col"><spring:message code="TRANSACTIONS_HEADER_FROM" /></th>
+			<th scope="col"><spring:message code="TRANSACTIONS_HEADER_TO" /></th>
+			<th scope="col"><spring:message code="TRANSACTIONS_HEADER_CREATED" /></th>
+			<th scope="col"><spring:message code="TRANSACTIONS_HEADER_AMOUNT" /></th>
 		</tr>
 	</thead>
 	<tbody>
 		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
-		</tr>
-		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
-		</tr>
-		<tr>
-			<th scope="row">Default</th>
-			<td>Column content</td>
-			<td>Column content</td>
-			<td>Column content</td>
+			<c:forEach var="transaction" items="${transactions}">
+				<th scope="row">${transaction.id}</th>
+				<td>${transaction.fromAccountId}</td>
+				<td>${transaction.toAccountId}</td>
+				<td>${transaction.created}</td>
+				<td>${transaction.amount}</td>
+			</c:forEach>
 		</tr>
 	</tbody>
 </table>
 
 <jsp:include page="../assets/footer.jsp" />
+<script>
+	$(function(){
+		// change nav item class active
+		$(".nav-item").removeClass('active');
+	    $("#transactionsNavID").addClass('active');
+	})
+</script>
