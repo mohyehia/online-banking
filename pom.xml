@@ -113,7 +113,7 @@
 		<profile>
 			<id>windows</id>
 			<properties>
-				<db.url>jdbc:mysql://localhost:3306</db.url>
+				<db.url>jdbc:mysql://localhost:3306/online-banking</db.url>
 			</properties>
 			<activation>
 				<activeByDefault>true</activeByDefault>
@@ -122,7 +122,7 @@
 		<profile>
 			<id>linux</id>
 			<properties>
-				<db.url>jdbc:mysql://localhost</db.url>
+				<db.url>jdbc:mysql://localhost/online-banking</db.url>
 			</properties>
 		</profile>
 	</profiles>

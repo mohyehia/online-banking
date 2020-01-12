@@ -8,4 +8,5 @@ public interface AccountService {
 	List<Account> findAll();
 	List<Account> findByUserId(long userId);
 	Account saveAccount(Account account);
+	Account findByIdAndUserId(long id, long userId);
 }

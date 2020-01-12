@@ -37,4 +37,9 @@ public class AccountServiceImpl implements AccountService{
 		return accountDAO.save(account);
 	}
 
+	@Override
+	public Account findByIdAndUserId(long id, long userId) {
+		return accountDAO.findByIdAndUserId(id, userId).orElse(null);
+	}
+
 }

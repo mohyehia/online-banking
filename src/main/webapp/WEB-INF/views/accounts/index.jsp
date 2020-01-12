@@ -38,28 +38,76 @@
 			<tr>
 				<th scope="row">${account.id}</th>
 				<td>${account.accountType}</td>
-				<td>${account.creditType}</td>
+				<td>${account.creditType == '1' ? 'Debit' : 'Credit'}</td>
 				<td>${account.created}</td>
 				<td>${account.balance} EGP</td>
-				<td><button class="btn btn-sm btn-danger closeAccountBtn" id="${account.id}"><i class="fas fa-window-close"></i></button></td>
+				<td><button class="btn btn-sm btn-danger closeAccountBtn" id="${account.id}">Close</button></td>
 			</tr>
 		</c:forEach>
 	</tbody>
 </table>
 
 <jsp:include page="../assets/footer.jsp" />
+<!-- Modal code for closing an account -->
+<div class="modal fade" id="closeAccountModal" >
+	<div class="modal-dialog"role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title">Close Account</h5>
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					<span aria-hidden="true">&times;</span>
+				</button>
+			</div>
+			<div class="modal-body">
+				<p><strong>Are you sure you want to close this account?</strong></p>
+				<span>By closing this account you will no longer be able to transfer money from and to this account.</span>
+				<br>
+				<span><strong>continue with this action?</strong></span>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-danger" id="closeAccountBtn">Close</button>
+				<button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+			</div>
+		</div>
+	</div>
+</div>
 <script>
 $(function(){
 	// change nav item class active
 	$(".nav-item").removeClass('active');
     $("#accountsNavID").addClass('active');
-    
+
+	// add csrf token to ajax request
+	var csrf_token = $('meta[name="_csrf"]').attr('content');
+	$.ajaxSetup({
+		headers:
+				{'X-CSRF-TOKEN': csrf_token}
+	});
+
 	$('.closeAccountBtn').click(function(){
 		closeAccount($(this).attr('id'));
 	});
 	
 	function closeAccount(accountId){
-		alert(accountId);
+		$('#closeAccountModal').modal('show');
+		$('#closeAccountBtn').data('accountId', accountId);
 	};
+
+	$('#closeAccountBtn').click(function () {
+		let accountId = $(this).data('accountId');
+		// send ajax request to close this account
+		$.ajax({
+			url : "${contextPath}/accounts/close",
+			method : "POST",
+			data : {"accountId" : accountId},
+			beforeSend : function () {
+				console.log('Sending request!');
+			},
+			success : function (data) {
+				alert(data);
+				$('#closeAccountModal').modal('hide');
+			}
+		});
+	});
 });
 </script>

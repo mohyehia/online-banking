@@ -37,8 +37,7 @@
                             </div>
                             <div class="form-group d-none" id="creditDiv">
                                 <label for="creditType">Credit Type</label>
-                                <input type="text" id="creditType" name="creditType" class="form-control" placeholder="Credit Type" readonly>
-                            	<select id="ASCreditType" class="form-control d-none">
+                            	<select id="creditType" class="form-control" name="creditType">
                                     <option value="Credit">Credit</option>
                                     <option value="Debit">Debit</option>
                                 </select>
@@ -71,24 +70,35 @@ $(document).ready(function(){
 		switch(accountType){
 		case 'AC':
 			console.log('AC selected');
-			$('#ASCreditType').addClass('d-none');
-			$('#creditType').show();
-			$('#creditType').val('Credit');
+			$('#creditType').find('option').remove().end();
+            var option = document.createElement('option');
+            option.value = '1';
+            option.text = 'Debit';
+            document.getElementById('creditType').appendChild(option);
 			break;
 		case 'AT':
 			console.log('AT selected');
-			$('#ASCreditType').addClass('d-none');
-			$('#creditType').show();
-			$('#creditType').val('Debit');
+            $('#creditType').find('option').remove().end();
+            var option = document.createElement('option');
+            option.value = '2';
+            option.text = 'Credit';
+            document.getElementById('creditType').appendChild(option);
 			break;
 		case 'AS':
 			console.log('AS selected');
-			$('#creditType').hide();
-			$('#ASCreditType').removeClass('d-none');
+            $('#creditType').find('option').remove().end();
+            var debitOption = document.createElement('option');
+            debitOption.value = '1';
+            debitOption.text = 'Debit';
+            var creditOption = document.createElement('option');
+            creditOption.value = '2';
+            creditOption.text = 'Credit';
+            document.getElementById('creditType').appendChild(debitOption);
+            document.getElementById('creditType').appendChild(creditOption);
 			break;
 		default:
 			console.log('No account type selected!');
-			$('#creditDiv').addClass('d-none');
+			$('#creditType').addClass('d-none');
 			break;
 		}
 	});

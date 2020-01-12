@@ -1,21 +1,15 @@
 package com.mohyehia.onlinebanking.controllers;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
+import com.mohyehia.onlinebanking.utils.OnlineBankingConstant;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.mohyehia.onlinebanking.entities.Account;
@@ -29,10 +23,12 @@ public class AccountController extends BaseController {
 	
 	private static final Logger LOG = LoggerFactory.getLogger(AccountController.class);
 	private final AccountService accountService;
+	private final MessageSource messageSource;
 	
 	@Autowired
-	public AccountController(AccountService accountService) {
+	public AccountController(AccountService accountService, MessageSource messageSource) {
 		this.accountService = accountService;
+		this.messageSource = messageSource;
 	}
 	
 	@GetMapping
@@ -53,7 +49,7 @@ public class AccountController extends BaseController {
 			throw new AddAccountException("Cannot add another account as there are 3 accounts for this user");
 		}else {
 			model.addAttribute("title", "Add new account");
-			Set<String> accountTypes = new HashSet<>(Arrays.asList("AC", "AT", "AS"));
+			Set<String> accountTypes = new HashSet<>(Arrays.asList(OnlineBankingConstant.AC_ACCOUNT_TYPE, OnlineBankingConstant.AS_ACCOUNT_TYPE, OnlineBankingConstant.AT_ACCOUNT_TYPE));
 			accounts.forEach(account -> accountTypes.remove(account.getAccountType()));
 			LOG.info("Available account types =>" + accountTypes.size());
 			model.addAttribute("accountTypes", accountTypes);
@@ -88,9 +84,17 @@ public class AccountController extends BaseController {
 		return "accounts/edit";
 	}
 	
-	@GetMapping("/{accountId}/delete")
-	public String viewDeleteAccount(@PathVariable Long accountId) {
-		return "accounts/delete";
+	@PostMapping("/close")
+	@ResponseBody
+	public String closeAccount(@RequestParam("accountId") Long accountId) {
+		LOG.info("Accessing function closeAccount with id =>" + accountId);
+		Account account = accountService.findByIdAndUserId(accountId, getCurrentUser().getId());
+		if(account == null){
+			return messageSource.getMessage("ACCOUNT_NOT_BELONG_TO_USER", new Object[]{}, Locale.ENGLISH);
+		}
+		account.setActive(false);
+		accountService.saveAccount(account);
+		return "success";
 	}
 	
 	@ModelAttribute("user")
@@ -109,13 +113,14 @@ public class AccountController extends BaseController {
 	}
 	
 	private List<String> validateAccount(Account account){
+		LOG.info(account.toString());
 		List<String> errors = new ArrayList<>();
-		if(account.getAccountType().equals("AC") && !account.getCreditType().equals("Credit".trim()))
-			errors.add("AC account type can not be Credit.");
-		if(account.getAccountType().equals("AT") && !account.getCreditType().equals("Debit".trim()))
-			errors.add("AT account type can not be Debit.");
-		if(account.getAccountType().equals("AS")) {
-			if(!account.getCreditType().equals("Credit".trim()) && !account.getCreditType().equals("Debit".trim()))
+		if(account.getAccountType().equals(OnlineBankingConstant.AC_ACCOUNT_TYPE) && !account.getCreditType().equals(OnlineBankingConstant.AC_CREDIT_TYPE_DEBIT))
+			errors.add("AC account type must be 'Debit'.");
+		if(account.getAccountType().equals(OnlineBankingConstant.AT_ACCOUNT_TYPE) && !account.getCreditType().equals(OnlineBankingConstant.AT_CREDIT_TYPE_CREDIT))
+			errors.add("AT account type must be 'Credit'.");
+		if(account.getAccountType().equals(OnlineBankingConstant.AS_ACCOUNT_TYPE)) {
+			if(!account.getCreditType().equals(OnlineBankingConstant.AC_CREDIT_TYPE_DEBIT) && !account.getCreditType().equals(OnlineBankingConstant.AT_CREDIT_TYPE_CREDIT))
 				errors.add("AS account type must be Credit or Debit");
 		}
 		if(account.getBalance().intValue() < 500 || account.getBalance().intValue() > 5000)
