@@ -40,6 +40,12 @@ public class AccountController extends BaseController {
 		model.addAttribute("accounts", accounts);
 		return "accounts/index";
 	}
+
+	@GetMapping("/retrieve")
+	@ResponseBody
+	public String retrieveAccounts(){
+		return "";
+	}
 	
 	@GetMapping("/add")
 	public String viewAddAccount(Model model) {
@@ -87,14 +93,19 @@ public class AccountController extends BaseController {
 	@PostMapping("/close")
 	@ResponseBody
 	public String closeAccount(@RequestParam("accountId") Long accountId) {
-		LOG.info("Accessing function closeAccount with id =>" + accountId);
-		Account account = accountService.findByIdAndUserId(accountId, getCurrentUser().getId());
-		if(account == null){
-			return messageSource.getMessage("ACCOUNT_NOT_BELONG_TO_USER", new Object[]{}, Locale.ENGLISH);
+		try {
+			LOG.info("Accessing function closeAccount with id =>" + accountId);
+			Account account = accountService.findByIdAndUserId(accountId, getCurrentUser().getId());
+			if(account == null){
+				return messageSource.getMessage("ACCOUNT_NOT_BELONG_TO_USER", new Object[]{}, Locale.ENGLISH);
+			}
+			account.setActive(false);
+			accountService.saveAccount(account);
+			return "success";
+		} catch (Exception e){
+			e.printStackTrace();
+			return "error";
 		}
-		account.setActive(false);
-		accountService.saveAccount(account);
-		return "success";
 	}
 	
 	@ModelAttribute("user")
